@@ -4,7 +4,7 @@ Moose is a platform for software analysis.
 
 It allows to represent software system in a model, to query, manipulate, transform, visualize this model.
 
-Moose is based on Pharo and it's open source under BSD/MIT.
+Moose is based on [Pharo](https://pharo.org/) and it's open source under BSD/MIT.
 
 Have a look at the [wiki](https://modularmoose.org/moose-wiki/) and the last [posts](https://modularmoose.org/posts/).
 
