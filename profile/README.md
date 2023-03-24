@@ -1,6 +1,6 @@
 ## Hi there 👋
 
-Moose is a platform for software analysis.
+[Moose](https://github.com/moosetechnology/Moose) is a platform for software analysis.
 
 It allows to represent software system in a model, to query, manipulate, transform, visualize this model.
 
