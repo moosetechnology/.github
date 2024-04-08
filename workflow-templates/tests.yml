@@ -1,0 +1,11 @@
+name: Run tests
+
+on:
+  push:
+    branches: [ $default-branch ]
+  pull_request:
+    branches: [ $default-branch ]
+  cron: $cron-daily
+ 
+jobs:
+  uses: moosetechnology/.github/.github/workflows/run-tests.yml
