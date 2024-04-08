@@ -1,11 +1,18 @@
+# This workflows runs your tests as specified in your .smalltalk.ston configuration file.
+
 name: Run tests
 
 on:
+# Only one trigger is necessary. Keep only the ones you need. Find more information here: # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows
   push:
-    branches: [ $default-branch ]
+    branches: [ $default-branch ] # By default, your default branch.
   pull_request:
-    branches: [ $default-branch ]
-  cron: $cron-daily
+    branches: [ $default-branch ] # By default, your default branch.
+  schedule:
+    - cron:  '0 0 * * *'
  
 jobs:
   uses: moosetechnology/.github/.github/workflows/run-tests.yml
+# Optional input: un-comment the lines below.
+#    with:
+#      pharo-versions: # <an array of Pharo images>. This must be an array of strings. Available images here: available here: https://github.com/hpi-swa/smalltalkCI?tab=readme-ov-file#images
