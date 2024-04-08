@@ -12,7 +12,8 @@ on:
     - cron:  '0 0 * * *'
  
 jobs:
-  uses: moosetechnology/.github/.github/workflows/run-tests.yml
+  run:
+    uses: moosetechnology/.github/.github/workflows/run-tests.yml
 # Optional input: un-comment the lines below.
-#    with:
-#      pharo-versions: # <an array of Pharo images>. This must be an array of strings. Available images here: available here: https://github.com/hpi-swa/smalltalkCI?tab=readme-ov-file#images
+#      with:
+#        pharo-versions: # <an array of Pharo images>. This must be an array of strings. Available images here: available here: https://github.com/hpi-swa/smalltalkCI?tab=readme-ov-file#images
