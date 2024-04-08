@@ -1,5 +1,5 @@
 {
-    "name": "Run tests",
+    "name": "Moosetechnology - Run tests",
     "description": "Run tests on the latest Pharo versions compatible with the latest Moose.",
     "iconName": "octicon git-pull-request",
     "categories": [
