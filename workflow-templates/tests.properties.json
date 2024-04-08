@@ -2,10 +2,6 @@
     "name": "Moosetechnology - Run tests",
     "description": "Run tests on the latest Pharo versions compatible with the latest Moose.",
     "iconName": "octicon git-pull-request",
-    "categories": [
-        "testing"
-    ],
-    "filePatterns": [
-        ".smalltalk.ston",
-    ]
+    "categories": [ "Continuous integration" ],
+    "filePatterns": [ ".smalltalk.ston" ]
 }
