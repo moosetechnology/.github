@@ -1,0 +1,35 @@
+name: Run tests
+
+on:
+  workflow_call:
+    inputs: 
+      pharo-versions:
+        required: false
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # Run on the images provided as input. If no images were provided (empty string) run on the default versions.
+        # Default versions are computed using repository variables:
+          # If a specific Moose version was set for the target branch: the Pharo images associated with this Moose version
+          # Else the Pharo images asociated with Moose-latest.
+        smalltalk: ${{ fromJSON(inputs.pharo-versions || fromJSON(vars.MOOSE_PHARO_VERSIONS)[fromJSON(vars.BRANCHES_CONFIGURATION)[github.ref_name].moose-version || 'Moose-latest']) }} # The warning is wrong.
+    name: ${{ matrix.smalltalk }}
+    steps:
+    
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Option fetching all commits
+      - name: Set-up smalltalkCI
+        uses: hpi-swa/setup-smalltalkCI@v1
+        with:
+          smalltalk-image: ${{ matrix.smalltalk }}
+      - name: Run tests
+        run: smalltalkci -s ${{ matrix.smalltalk }}
+        shell: bash
+        timeout-minutes: 15
