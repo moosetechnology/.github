@@ -38,8 +38,11 @@ jobs:
 # image-name:
 #  If create-artifact is set to true, this will be the beginning of the name of the artifact and the image in it.
 #  The full name of each artifact will be <imagename>-<pharo-version>. This way you get an artifact per pharo version used.
+#  Default value: <RepositoryName-branchName>
+#  Alternatively, you can assign an image name to your branch.
 
 # pre-upload-script:
 #  If create-artifact is set to true, this will be executed in the image after the tests are run and before uploading the artifact.
 #  It is mostly used when you need to register information from the workflow run. For example, store commit ID. 
 #  If you do not need workflow information, you can instead use smalltalkCI custom scripts: https://github.com/hpi-swa/smalltalkCI?tab=readme-ov-file#custom-scripts
+#  Default value: ""
