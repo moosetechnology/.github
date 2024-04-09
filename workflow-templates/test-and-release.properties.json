@@ -1,0 +1,7 @@
+{
+    "name": "Run tests and Update release",
+    "description": "Run tests of a moosetechnology repository and upload the images as release assets.",
+    "iconName": "moose-logo",
+    "categories": [ "Continuous integration" ],
+    "filePatterns": [ ".smalltalk.ston" ]
+}
