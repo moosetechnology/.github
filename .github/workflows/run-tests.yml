@@ -10,7 +10,7 @@ on:
 env:
   PV: ${{ inputs.pharo-versions }}
   MV: ${{ fromJSON(vars.MOOSE_PHARO_VERSIONS)['Moose-latest'] }}
-  BRANCH_V: ${{ vars.BRANCHES_CONFIGURATION }}
+  BRANCH_V: ${{ vars.BRANCHES_CONFIGURATION && fromJSON(vars.BRANCHES_CONFIGURATION)[github.ref_name] || 'Test' }}
 #  BRANCH_V_M: ${{ fromJSON(vars.BRANCHES_CONFIGURATION)[github.ref_name].moose-version }}
 
 jobs:
