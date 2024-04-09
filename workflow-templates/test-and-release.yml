@@ -34,6 +34,7 @@ jobs:
 #  This will be the beginning of the name of the release assets and the images.
 #  The full name of each asset will be <imagename>-<pharo-version>. This way you get an asset per pharo version used.
 #  Default value: <RepositoryName-branchName>
+#  Alternatively, you can assign an image name to your branch.
 
 # pre-upload-script:
 #  This will be executed in the image after the tests are run and before uploading the asset.
