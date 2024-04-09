@@ -1,6 +1,6 @@
-This repository contains configurations for the moosetechnology prganization.
+This repository contains configurations for the moosetechnology organization.
 
-# Workflows
+# About Workflows
 This repository contains starter workflows that can be used to as templates in repositories in the organization.
 We also provide reusable workflows that can be called by another workflow. They are
 
