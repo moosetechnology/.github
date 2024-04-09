@@ -8,7 +8,7 @@ on:
         type: string
 
 env:
-  PV: ${{ toJSON(fromJSON(inputs.pharo-versions || fromJSON(vars.MOOSE_PHARO_VERSIONS)[fromJSON(vars.BRANCHES_CONFIGURATION)[github.ref_name].moose-version || 'Moose-latest'])) }}
+  PV: ${{ inputs.pharo-versions || toJSON(fromJSON(vars.MOOSE_PHARO_VERSIONS)[fromJSON(vars.BRANCHES_CONFIGURATION)[github.ref_name].moose-version || 'Moose-latest']) }}
 
 jobs:
   build:
