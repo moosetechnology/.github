@@ -14,7 +14,7 @@ on:
  
 jobs:
   run:
-    uses: moosetechnology/.github/.github/workflows/run-tests.yml
+    uses: moosetechnology/.github/.github/workflows/run-tests.yml@main
 # Optional inputs: un-comment the lines below. See documentation in the next commented paragraph.
 #      with:
 #        pharo-versions: [ Pharo64-stable ]
