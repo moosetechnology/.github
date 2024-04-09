@@ -2,15 +2,15 @@ This repository contains configurations for the moosetechnology organization.
 
 # About Workflows
 This repository contains starter workflows that can be used to as templates in repositories in the organization.
-We also provide reusable workflows that can be called by another workflow. They are
+We also provide reusable workflows that can be called by another workflow.
 
 ## Reusable workflows
-They are workflows that are called by other workflows.
+Reusable workflows are workflows that are called by other workflows.
 Their goal is to hold the testing behavior that is common accross moosetechnology repositories.
 Bug report and feature requests about reusable workflows should be expressed by an issue to this repository.
 
 ## Starter workflows
-They are templates that are available when creating a new workflow in a moosetechnology repository. 
+Starter workflows are templates that are available when creating a new workflow in a moosetechnology repository. 
 They can be found in the `Action` tab of your repo, when clicking the `New workflow` button.
 
 ![image](https://github.com/moosetechnology/.github/assets/39184695/fafcd534-e9de-46c6-9aed-4043b7e5113f)
