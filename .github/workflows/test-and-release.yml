@@ -1,0 +1,36 @@
+name: Tests and Release
+
+on:
+  workflow_call:
+    inputs:
+      image-name:
+        required: false
+        type: string
+      pharo-versions:
+        required: false
+        type: string
+      pre-upload-script:
+        required: false
+        type: string
+      release-tag:
+        required: false
+        type: string
+
+jobs:
+  run-tests:
+    name: Run tests
+    uses: moosetechnology/.github/.github/workflows/run-tests.yml@main
+    with:
+      image-name: ${{ inputs.image-name }}
+      pharo-versions: ${{ inputs.pharo-versions }}
+      pre-upload-script: ${{ inputs.pre-upload-script }}
+      create-artifact: true
+
+  update-release:
+    name: Update ${{ inputs.release-tag }} release
+    needs: run-tests
+    if: ${{ always() }} # Run even if run-tests job failed. The failures will not build any artifact, so worst-case scenario: update-release will do nothing.
+    uses: moosetechnology/.github/.github/workflows/update-release.yml@main
+    with:
+       image-name: ${{ inputs.image-name }}
+       release-tag: ${{ inputs.release-tag }}
