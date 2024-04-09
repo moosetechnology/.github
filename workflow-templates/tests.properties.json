@@ -2,6 +2,6 @@
     "name": "Run tests",
     "description": "Run tests of a moosetechnology repository.",
     "iconName": "moose-logo",
-    "categories": [ "Continuous integration" ],
+    "categories": [ "continuous-integration", "Smalltalk" ],
     "filePatterns": [ ".smalltalk.ston" ]
 }
