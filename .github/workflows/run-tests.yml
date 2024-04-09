@@ -26,7 +26,7 @@ jobs:
         # Default versions are computed using repository variables:
           # If a specific Moose version was set for the target branch: the Pharo images associated with this Moose version
           # Else the Pharo images asociated with Moose-latest.
-        smalltalk: ${{ fromJSON(inputs.pharo-versions || fromJSON(vars.MOOSE_PHARO_VERSIONS)[vars.BRANCHES_CONFIGURATION && vars.BRANCHES_CONFIGURATION[github.ref_name] && fromJSON(vars.BRANCHES_CONFIGURATION)[github.ref_name].moose-version || 'Moose-latest']) }}
+        smalltalk: ${{ fromJSON(inputs.pharo-versions || fromJSON(vars.MOOSE_PHARO_VERSIONS)[vars.BRANCHES_CONFIGURATION && fromJSON(vars.BRANCHES_CONFIGURATION)[github.ref_name] && fromJSON(vars.BRANCHES_CONFIGURATION)[github.ref_name].moose-version || 'Moose-latest']) }}
           
     name: ${{ matrix.smalltalk }}
     steps:
@@ -63,7 +63,7 @@ jobs:
         # The following line will change the asset name in the release and have an impact on download from Pharo-launcher. Do not use it until next release.
          # echo IMAGE_NAME=${{ inputs.image-name }}-${{ matrix.smalltalk }} | sed 's/64-//g' >> $GITHUB_ENV
         env: 
-          common-image-name: ${{ inputs.image-name || fromJSON(vars.BRANCHES_CONFIGURATION && vars.BRANCHES_CONFIGURATION[github.ref_name] && vars.BRANCHES_CONFIGURATION)[github.ref_name].image-name || format('{0}-{1}', github.event.repository.name, github.ref_name) }}
+          common-image-name: ${{ inputs.image-name || vars.BRANCHES_CONFIGURATION && fromJSON(vars.BRANCHES_CONFIGURATION)[github.ref_name] && fromJSON(vars.BRANCHES_CONFIGURATION)[github.ref_name].image-name || format('{0}-{1}', github.event.repository.name, github.ref_name) }}
         
       - name: Build artifact
         if: ${{ inputs.create-artifact }}
