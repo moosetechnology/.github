@@ -26,13 +26,7 @@ jobs:
         # Default versions are computed using repository variables:
           # If a specific Moose version was set for the target branch: the Pharo images associated with this Moose version
           # Else the Pharo images asociated with Moose-latest.
-        smalltalk: | # The warning is wrong.
-          ${{ 
-            fromJSON(inputs.pharo-versions || 
-            fromJSON(vars.MOOSE_PHARO_VERSIONS)[vars.BRANCHES_CONFIGURATION
-                                                && vars.BRANCHES_CONFIGURATION[github.ref_name] 
-                                                && fromJSON(vars.BRANCHES_CONFIGURATION)[github.ref_name].moose-version 
-                                                || 'Moose-latest']) }}
+        smalltalk: ${{ fromJSON(inputs.pharo-versions || fromJSON(vars.MOOSE_PHARO_VERSIONS)[vars.BRANCHES_CONFIGURATION && vars.BRANCHES_CONFIGURATION[github.ref_name] && fromJSON(vars.BRANCHES_CONFIGURATION)[github.ref_name].moose-version || 'Moose-latest']) }}
           
     name: ${{ matrix.smalltalk }}
     steps:
