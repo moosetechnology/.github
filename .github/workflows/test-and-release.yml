@@ -29,7 +29,7 @@ jobs:
   update-release:
     name: Update ${{ inputs.release-tag }} release
     needs: run-tests
-    if: ${{ always() }} # Run even if run-tests job failed. The failures will not build any artifact, so worst-case scenario: update-release will do nothing.
+    if: ${{ contains(join(needs.*.result, ','), 'success') }} # Run if any run-tests job succeeded.
     uses: moosetechnology/.github/.github/workflows/update-release.yml@main
     with:
        image-name: ${{ inputs.image-name }}
