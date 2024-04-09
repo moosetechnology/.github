@@ -1,0 +1,47 @@
+name: Run tests and update release
+
+on:
+# Only one trigger is necessary, keep only the ones you need. Default branch is set by default, change it according to your needs.
+# Find more information here: # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows
+  push:
+    branches: [ $default-branch ]
+  pull_request:
+    branches: [ $default-branch ]
+  schedule:
+    - cron:  '0 0 * * *'
+
+jobs:
+  run-tests-and-update-release:
+    name: Run tests and update release
+    uses: moosetechnology/.github/.github/workflows/run-and-release.yml@main
+# Optional inputs: un-comment the lines below. See documentation in the next commented paragraph.
+#      with:
+#        pharo-versions: [ Pharo64-stable ]
+#        image-name: ""
+#        pre-upload-script: ""
+#        release-tag: ""
+
+
+
+############ INPUTS DOCUMENTATION ############
+
+# pharo-version: 
+#  This must be an array of strings corresponding to a Pharo or Moose image. See available images here: https://github.com/hpi-swa/smalltalkCI?tab=readme-ov-file#images
+#    Default value: The Pharo versions compatible with the latest Moose version.
+#    Alternatively, you can assign a Moose version to your branch. The default Pharo version will then be the available Pharo versions corresponding to this Moose version.
+
+# image-name:
+#  This will be the beginning of the name of the release assets and the images.
+#  The full name of each asset will be <imagename>-<pharo-version>. This way you get an asset per pharo version used.
+#  Default value: <RepositoryName-branchName>
+
+# pre-upload-script:
+#  This will be executed in the image after the tests are run and before uploading the asset.
+#  It is mostly used when you need to register information from the workflow run. For example, store commit ID. 
+#  If you do not need workflow information, you can instead use smalltalkCI custom scripts: https://github.com/hpi-swa/smalltalkCI?tab=readme-ov-file#custom-scripts
+#  Default value: ""
+
+# release-tag:
+#  The tag of the release you want to update.
+#  Default value: 'generated-assets'
+#  Alternatively, you can assign a release tag to your branch.
