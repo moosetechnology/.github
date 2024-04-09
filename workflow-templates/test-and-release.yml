@@ -13,7 +13,7 @@ on:
 jobs:
   run-tests-and-update-release:
     name: Run tests and update release
-    uses: moosetechnology/.github/.github/workflows/run-and-release.yml@main
+    uses: moosetechnology/.github/.github/workflows/test-and-release.yml@main
 # Optional inputs: un-comment the lines below. See documentation in the next commented paragraph.
 #      with:
 #        pharo-versions: [ Pharo64-stable ]
