@@ -1,5 +1,3 @@
-This repository contains configurations for the moosetechnology organization.
-
 # About Workflows
 
 ###### Reusable workflows
