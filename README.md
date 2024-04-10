@@ -27,5 +27,34 @@ The [run-tests.yml](workflow-templates/test-and-release.yml) starter workflow is
 It calls the [run-tests.yml](.github/workflows/test-and-release.yml).
 The options available are detailed in the workflow file.
 
-## About options
-[TODO]
+### About options
+The starter workflows can call reusable workflows with several options.
+
+#### Available options
+
+| Option            | Type             | Availability                              | Default value                     |
+| ----------------- | ---------------- | ----------------------------------------- | --------------------------------- |
+| pharo-versions    | Array of strings | All                                       | Pharo versions for latest Moose   |
+| create-artifact   | Boolean          | run-tests.yml                             | false                             |
+| image-name        | String           | All (useless if create-artifact is false) | \<RepositoryName\>-\<branchName\> |
+| pre-ulpoad-script | String           | All (useless if create-artifact is false) | ''                                |
+| release-tag       | String           | update-and-release.yml                    | 'generated-assets'                |
+
+- **pharo-version**: The pharo versions on which the tests will run.
+See available images [here](https://github.com/hpi-swa/smalltalkCI?tab=readme-ov-file#images).
+
+- **create-artifact**: A boolean.
+If `true`, an artifact containing all the files necessary to run the image locally will be generated.
+Note that smalltalkCI will be deleted from this image.
+
+- **image-name**:
+The first part of the name of the image generated and the file containing it.
+The full name will be <image-name>-<pharo-version>.
+
+- **pre-upload-script**:
+A Pharo script that will be executed in the image after the tests are run and before uploading the artifact.
+It is mostly used to register information from the workflow run. For example, store a commit ID.
+If you do not need workflow information, you can instead use smalltalkCI custom scripts: https://github.com/hpi-swa/smalltalkCI?tab=readme-ov-file#custom-scripts
+
+- **release-tag**:
+The tag of the release to update.
