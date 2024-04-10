@@ -23,7 +23,7 @@ The default behavior is simple:
 3. Run tests
 
 The `create-artifact` option triggers the generation of an artifact containing all the files necessary to run the image locally will be generated.
-See [available options](Available-options).
+See [available options](options).
 
 ### Run tests and update a release
 The [run-tests.yml](workflow-templates/test-and-release.yml) starter workflow is to be used when you need to update a release with the generated images.
