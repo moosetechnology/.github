@@ -30,10 +30,10 @@ The [run-tests.yml](workflow-templates/test-and-release.yml) starter workflow is
 It runs the tests in the same manner as run-tests.yml.
 If the tests succeed, an artifact is created and uploaded as release assets.
 
-### Options
+## Options
 The starter workflows can call reusable workflows with several options.
 
-#### Available options
+### Available options
 
 | Option            | Type             | Availability                              | Default value                     |
 | ----------------- | ---------------- | ----------------------------------------- | --------------------------------- |
@@ -62,14 +62,12 @@ If you do not need workflow information, you can instead use [smalltalkCI custom
 - **release-tag**:
 The tag of the release to update.
 
-#### Overriding default values
-
-##### Default values at repository scope
+### Overriding default values
 
 Default values for the options are set at the organization level.
 They can be overriden at a repository scope.
 
-###### Use the same value for all branches in the repository
+#### Use the same value for all branches in the repository
 To override a default value for all branches in a repository, set the value as input for the reusable workflows when configuring the starter workflow.
 Example, to use the latest stable Pharo version: 
 
@@ -80,5 +78,5 @@ jobs:
       with:
         pharo-versions: [ Pharo64-stable ]
 ```
-##### Use different values for specfic branches
+#### Use different values for specfic branches
 [TODO]
