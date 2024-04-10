@@ -62,12 +62,14 @@ If you do not need workflow information, you can instead use [smalltalkCI custom
 - **release-tag**:
 The tag of the release to update.
 
-#### Default values at repository scope
+#### Overriding default values
+
+##### Default values at repository scope
 
 Default values for the options are set at the organization level.
 They can be overriden at a repository scope.
 
-##### Use the same value for all branches in the repository
+###### Use the same value for all branches in the repository
 To override a default value for all branches in a repository, set the value as input for the reusable workflows when configuring the starter workflow.
 Example, to use the latest stable Pharo version: 
 
