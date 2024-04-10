@@ -25,7 +25,7 @@ The default behavior is simple:
 The `create-artifact` option triggers the generation of an artifact containing all the files necessary to run the image locally will be generated.
 See [Options](#Options).
 
-### Run tests and update a release
+#### Run tests and update a release
 The [run-tests.yml](workflow-templates/test-and-release.yml) starter workflow is to be used when you need to update a release with the generated images.
 It runs the tests in the same manner as run-tests.yml.
 If the tests succeed, an artifact is created and uploaded as release assets.
@@ -52,7 +52,7 @@ Note that smalltalkCI will be deleted from this image.
 
 - **image-name**:
 The first part of the name of the image generated and the file containing it.
-The full name will be <image-name>-<pharo-version>.
+The full name will be \<image-name\>-\<pharo-version\>.
 
 - **pre-upload-script**:
 A Pharo script that will be executed in the image after the tests are run and before uploading the artifact.
@@ -61,3 +61,22 @@ If you do not need workflow information, you can instead use [smalltalkCI custom
 
 - **release-tag**:
 The tag of the release to update.
+
+#### Default values at repository scope
+
+Default values for the options are set at the organization level.
+They can be overriden at a repository scope.
+
+##### Use the same value for all branches in the repository
+To override a default value for all branches in a repository, set the value as input for the reusable workflows when configuring the starter workflow.
+Example, to use the latest stable Pharo version: 
+
+```YAML
+jobs:
+  run:
+    uses: moosetechnology/.github/.github/workflows/run-tests.yml@main
+      with:
+        pharo-versions: [ Pharo64-stable ]
+```
+##### Use different values for specfic branches
+[TODO]
