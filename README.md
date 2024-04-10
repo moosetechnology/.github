@@ -37,7 +37,7 @@ The starter workflows can call reusable workflows with several options.
 | pharo-versions    | Array of strings | All                                       | Pharo versions for latest Moose   |
 | create-artifact   | Boolean          | run-tests.yml                             | false                             |
 | image-name        | String           | All (useless if create-artifact is false) | \<RepositoryName\>-\<branchName\> |
-| pre-ulpoad-script | String           | All (useless if create-artifact is false) | ''                                |
+| pre-upload-script | String           | All (useless if create-artifact is false) | ''                                |
 | release-tag       | String           | update-and-release.yml                    | 'generated-assets'                |
 
 - **pharo-version**: The pharo versions on which the tests will run.
@@ -53,8 +53,8 @@ The full name will be <image-name>-<pharo-version>.
 
 - **pre-upload-script**:
 A Pharo script that will be executed in the image after the tests are run and before uploading the artifact.
-It is mostly used to register information from the workflow run. For example, store a commit ID.
-If you do not need workflow information, you can instead use smalltalkCI custom scripts: https://github.com/hpi-swa/smalltalkCI?tab=readme-ov-file#custom-scripts
+It is mostly used to register information from the workflow run, for example store a commit ID.
+If you do not need workflow information, you can instead use [smalltalkCI custom scripts](https://github.com/hpi-swa/smalltalkCI?tab=readme-ov-file#custom-scripts)
 
 - **release-tag**:
 The tag of the release to update.
