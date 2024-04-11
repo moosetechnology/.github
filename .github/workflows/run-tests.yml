@@ -44,6 +44,8 @@ jobs:
         uses: hpi-swa/setup-smalltalkCI@v1
         with:
           smalltalk-image: ${{ matrix.smalltalk }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to fetch all commits
       - name: Run tests
         run: smalltalkci -s ${{ matrix.smalltalk }}
         shell: bash
