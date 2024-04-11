@@ -12,7 +12,12 @@ The default behavior can be modified using the options detailed below.
 
 The starter workflows can be found when creating a new workflow in any moosetechnology repository: in the `Action` tab, when clicking the `New workflow` button.
 
-![image](https://github.com/moosetechnology/.github/assets/39184695/fafcd534-e9de-46c6-9aed-4043b7e5113f)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/moosetechnology/.github/assets/39184695/f4b22375-ab08-4bf2-8cf2-86ff7bcdbe97">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/moosetechnology/.github/assets/39184695/8427a750-ca11-4881-9853-9ba748e8f709">
+  <img alt="Repository->Actions->New Workflow">
+</picture>
+
 ## Available starter workflows
 
 #### Run tests
