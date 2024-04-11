@@ -27,22 +27,30 @@ jobs:
 ############ INPUTS DOCUMENTATION ############
 
 # pharo-version: 
-#  This must be an array of strings corresponding to a Pharo or Moose image. See available images here: https://github.com/hpi-swa/smalltalkCI?tab=readme-ov-file#images
-#    Default: The Pharo versions compatible with the latest Moose version.
-#    Alternatively, you can assign a Moose version to your branch. The default Pharo version will then be the available Pharo versions corresponding to this Moose version.
+#  An array of strings corresponding to a Pharo or Moose image.
+#    Default is the Pharo versions compatible with the latest Moose version.
+#    Alternatively, you can:
+#       - set the value of this option with valid Pharo or Moose versions (always an array, even if you set only 1 image).  See available images here: https://github.com/hpi-swa/smalltalkCI?tab=readme-ov-file#images
+#       - assign a Moose version to your branch using repository variables. See https://github.com/moosetechnology/.github?tab=readme-ov-file#use-different-values-for-specfic-branches
+#          The default Pharo version will then be the available Pharo versions corresponding to this Moose version.
 
 # create-artifact:
-#  Set it to true if you wish to build an artifact containing all the files necessary to run your image locally.
-#  Note that smalltalkCI will be deleted from this image.
+#  A boolean. 
+#  Default is false.
+#  Set it to true to build an artifact containing all the files necessary to run your image locally. Note that smalltalkCI will be deleted from this image.
 
 # image-name:
+#  A string.
 #  If create-artifact is set to true, this will be the beginning of the name of the artifact and the image in it.
 #  The full name of each artifact will be <imagename>-<pharo-version>. This way you get an artifact per pharo version used.
-#  Default value: <RepositoryName-branchName>
-#  Alternatively, you can assign an image name to your branch.
+#    Default value: <RepositoryName-branchName>
+#    Alternatively, you can:
+#        - set the value of this option to a name valid for all branches in your repository
+#        - assign an image name to your branch using repository variables. See https://github.com/moosetechnology/.github?tab=readme-ov-file#use-different-values-for-specfic-branches
 
 # pre-upload-script:
+#  A string that can be executed in Pharo.
 #  If create-artifact is set to true, this will be executed in the image after the tests are run and before uploading the artifact.
 #  It is mostly used when you need to register information from the workflow run. For example, store commit ID. 
 #  If you do not need workflow information, you can instead use smalltalkCI custom scripts: https://github.com/hpi-swa/smalltalkCI?tab=readme-ov-file#custom-scripts
-#  Default value: ""
+#    Default value: ""
