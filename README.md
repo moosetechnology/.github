@@ -6,7 +6,7 @@ They hold the common testing behavior needed accross most moosetechnology reposi
 Feature requests and bug reports about reusable workflows should be expressed by an issue to this repository.
 
 ###### Starter workflows 
-This repository also contains starter workflows that can be used as templates for coninous integration in moosetechnology repositories.
+This repository also contains starter workflows that can be used as templates for continous integration in moosetechnology repositories.
 They call the reusable workflows of this repository to avoid code duplication.
 The default behavior can be modified using the options detailed below.
 
@@ -31,7 +31,7 @@ The `create-artifact` option triggers the generation of an artifact containing a
 See [Options](#Options).
 
 #### Run tests and update a release
-The [run-tests.yml](workflow-templates/test-and-release.yml) starter workflow is to be used when you need to update a release with the generated images.
+The [run-tests.yml](workflow-templates/test-and-release.yml) starter workflow should be used when you need to update a release with the generated images.
 It runs the tests in the same manner as run-tests.yml.
 If the tests succeed, an artifact is created and uploaded as release assets.
 
@@ -98,7 +98,7 @@ To create this variable, go to the `Settings` pane of your repository, then `Sec
   <img alt="Settings->Secrets and Variables -> Actions -> Variables tab">
 </picture>
 
-The varibale name must be `BRANCHES_CONFIGURATION` and its value must be a valid JSON string as below:
+The variable name must be `BRANCHES_CONFIGURATION` and its value must be a valid JSON string such as below:
 
 ```JSON
 {
