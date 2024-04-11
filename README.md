@@ -21,7 +21,7 @@ The starter workflows can be found when creating a new workflow in any moosetech
 ## Available starter workflows
 
 ### Run tests
-The [run-tests.yml](workflow-templates/tests.yml) starter workflow is the most frequently used.
+The [tests.yml](workflow-templates/tests.yml) starter workflow is the most frequently used.
 The default behavior is simple:
 1. Checkout the tested branch
 2. Load project
@@ -31,10 +31,10 @@ The `create-artifact` option triggers the generation of an artifact containing a
 See [Options](#Options).
 
 ### Run tests and update a release
-The [run-tests.yml](workflow-templates/test-and-release.yml) starter workflow is used to update a release with the generated images after testing.
+The [test-and-release.yml](workflow-templates/test-and-release.yml) starter workflow is used to update a release with the generated images after testing.
 It runs the tests in the same manner as run-tests.yml.
 If the tests succeed, an artifact is created and uploaded as release asset.
-In this workflow, `create-artifact`is always `true`.
+In this workflow, `create-artifact` is always `true`.
 
 ## Options
 
@@ -62,7 +62,7 @@ The full name will be \<image-name\>-\<pharo-version\>.
 - **pre-upload-script**:
 A Pharo script that will be executed in the image after the tests are run and before uploading the artifact.
 It is mostly used to register information from the workflow run, for example store a commit ID.
-If you do not need workflow information, you can instead use [smalltalkCI custom scripts](https://github.com/hpi-swa/smalltalkCI?tab=readme-ov-file#custom-scripts)
+If you do not need workflow information, you can instead use [smalltalkCI custom scripts](https://github.com/hpi-swa/smalltalkCI?tab=readme-ov-file#custom-scripts).
 
 - **release-tag**:
 The tag of the release to update.
@@ -121,4 +121,4 @@ In the variables page, you can see the organization variable that stores the Pha
 
 ## Limitations
 
-Coverage is not supported yet.
+Coverage is not yet supported.
