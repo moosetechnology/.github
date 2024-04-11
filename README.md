@@ -98,7 +98,7 @@ To create this variable, go to the `Settings` pane of your repository, then `Sec
   <img alt="Settings->Secrets and Variables -> Actions -> Variables tab">
 </picture>
 
-The variable name must be `BRANCHES_CONFIGURATION` and its value must be a valid JSON string as below:
+The variable name must be `BRANCHES_CONFIGURATION` and its value must be a valid JSON string such as below:
 
 ```JSON
 {
