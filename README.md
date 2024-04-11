@@ -119,3 +119,6 @@ The value of `moose-version`must be a valid Moose version. "Moose9", "Moose10", 
 The value of `pharo-versions` will then be set according to this Moose version.
 In the variables page, you can see the organization variable that stores the Pharo versions available for each Moose version.
 
+## Limitations
+
+Coverage is not supported yet.
