@@ -14,7 +14,7 @@ The starter workflows can be found when creating a new workflow in any moosetech
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/moosetechnology/.github/assets/39184695/f4b22375-ab08-4bf2-8cf2-86ff7bcdbe97">
-  <source media="(prefers-color-scheme: light)" srcset="https://github.com/moosetechnology/.github/assets/39184695/8427a750-ca11-4881-9853-9ba748e8f709">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/moosetechnology/.github/assets/39184695/85522528-62eb-4078-95db-85230afaa694">
   <img alt="Repository->Actions->New Workflow">
 </picture>
 
