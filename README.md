@@ -6,11 +6,11 @@ They hold the common testing behavior needed accross most moosetechnology reposi
 Feature requests and bug reports about reusable workflows should be expressed by an issue to this repository.
 
 ###### Starter workflows 
-This repository also contains starter workflows that can be used as templates for coninous integration in moosetechnology repositories.
-They call the reusable workflows of this repository to avoid code duplication.
-The default behavior can be modified using the options detailed below.
+This repository also contains starter workflows that can be used as templates for continous integration in moosetechnology repositories.
+They call the reusable workflows mentioned above, to avoid code duplication.
+Their behavior can be configured using the options detailed below.
 
-The starter workflows can be found when creating a new workflow in any moosetechnology repository: in the `Action` tab, when clicking the `New workflow` button:
+The starter workflows can be found when creating a new workflow in any moosetechnology repository, in the `Action` tab, when clicking the `New workflow` button:
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/moosetechnology/.github/assets/39184695/f4b22375-ab08-4bf2-8cf2-86ff7bcdbe97">
@@ -20,7 +20,7 @@ The starter workflows can be found when creating a new workflow in any moosetech
 
 ## Available starter workflows
 
-#### Run tests
+### Run tests
 The [run-tests.yml](workflow-templates/tests.yml) starter workflow is the most frequently used.
 The default behavior is simple:
 1. Checkout the tested branch
@@ -30,13 +30,13 @@ The default behavior is simple:
 The `create-artifact` option triggers the generation of an artifact containing all the files necessary to run the image locally will be generated.
 See [Options](#Options).
 
-#### Run tests and update a release
-The [run-tests.yml](workflow-templates/test-and-release.yml) starter workflow is to be used when you need to update a release with the generated images.
+### Run tests and update a release
+The [run-tests.yml](workflow-templates/test-and-release.yml) starter workflow is used to update a release with the generated images after testing.
 It runs the tests in the same manner as run-tests.yml.
-If the tests succeed, an artifact is created and uploaded as release assets.
+If the tests succeed, an artifact is created and uploaded as release asset.
+In this workflow, `create-artifact`is always `true`.
 
 ## Options
-The starter workflows can call reusable workflows with several options.
 
 ### Available options
 
@@ -68,7 +68,7 @@ If you do not need workflow information, you can instead use [smalltalkCI custom
 The tag of the release to update.
 If no release exists for this tag, it will be created.
 
-### Overriding default values
+### Overriding default option values
 
 Default values for the options are set at the organization level.
 They can be overriden at a repository scope.
@@ -98,7 +98,7 @@ To create this variable, go to the `Settings` pane of your repository, then `Sec
   <img alt="Settings->Secrets and Variables -> Actions -> Variables tab">
 </picture>
 
-The varibale name must be `BRANCHES_CONFIGURATION` and its value must be a valid JSON string as below:
+The variable name must be `BRANCHES_CONFIGURATION` and its value must be a valid JSON string as below:
 
 ```JSON
 {
