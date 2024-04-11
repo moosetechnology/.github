@@ -6,7 +6,7 @@ They hold the common testing behavior needed accross most moosetechnology reposi
 Feature requests and bug reports about reusable workflows should be expressed by an issue to this repository.
 
 ###### Starter workflows 
-This repository also contains starter workflows that can be used to as templates for coninous integration in moosetechnology repositories.
+This repository also contains starter workflows that can be used as templates for coninous integration in moosetechnology repositories.
 They call the reusable workflows of this repository to avoid code duplication.
 The default behavior can be modified using the options detailed below.
 
