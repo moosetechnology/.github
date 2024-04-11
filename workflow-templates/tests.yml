@@ -45,7 +45,7 @@ jobs:
 #  The full name of each artifact will be <imagename>-<pharo-version>. This way you get an artifact per pharo version used.
 #    Default value: <RepositoryName-branchName>
 #    Alternatively, you can:
-#        - set the value of this option to a name valid for all branches in your repository
+#        - set the value of this option to a name valid for all branches targeted by your workflow
 #        - assign an image name to your branch using repository variables. See https://github.com/moosetechnology/.github?tab=readme-ov-file#use-different-values-for-specfic-branches
 
 # pre-upload-script:
