@@ -10,12 +10,12 @@ This repository also contains starter workflows that can be used to as templates
 They call the reusable workflows of this repository to avoid code duplication.
 The default behavior can be modified using the options detailed below.
 
-The starter workflows can be found when creating a new workflow in any moosetechnology repository: in the `Action` tab, when clicking the `New workflow` button.
+The starter workflows can be found when creating a new workflow in any moosetechnology repository: in the `Action` tab, when clicking the `New workflow` button:
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/moosetechnology/.github/assets/39184695/f4b22375-ab08-4bf2-8cf2-86ff7bcdbe97">
   <source media="(prefers-color-scheme: light)" srcset="https://github.com/moosetechnology/.github/assets/39184695/85522528-62eb-4078-95db-85230afaa694">
-  <img alt="Repository->Actions->New Workflow">
+  <img alt="Repository -> Actions -> New Workflow">
 </picture>
 
 ## Available starter workflows
@@ -66,6 +66,7 @@ If you do not need workflow information, you can instead use [smalltalkCI custom
 
 - **release-tag**:
 The tag of the release to update.
+If no release exists for this tag, it will be created.
 
 ### Overriding default values
 
@@ -73,6 +74,7 @@ Default values for the options are set at the organization level.
 They can be overriden at a repository scope.
 
 #### Use the same value for all branches in the repository
+
 To override a default value for all branches in a repository, set the value as input for the reusable workflows when configuring the starter workflow.
 Example, to use the latest stable Pharo version: 
 
@@ -84,4 +86,36 @@ jobs:
         pharo-versions: [ Pharo64-stable ]
 ```
 #### Use different values for specfic branches
-[TODO]
+
+These workflows can read branch-specific informations for the following options: `pharo-versions`, `image-name` and `release-tag`.
+
+To add branch-specific configurations, you must create a repository variable named `BRANCHES_CONFIGURATION`.
+To create this variable, go to the `Settings` pane of your repository, then `Secrets and Variables`, `Actions`, `Variables` tab:
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/moosetechnology/.github/assets/39184695/c5054dd8-057b-477e-a01b-0f71273f96f5">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/moosetechnology/.github/assets/39184695/88ddb293-de9a-4277-9c0a-860890952638">
+  <img alt="Settings->Secrets and Variables -> Actions -> Variables tab">
+</picture>
+
+The varibale name must be `BRANCHES_CONFIGURATION` and its value must be a valid JSON string as below:
+
+```JSON
+{
+  "<branch1>": {
+    "moose-version": "<moose-version-for-branch1>",
+    "image-name": "<image-name-for-branch1>",
+    "release-tag": "<release-tag-for-branch-1>"
+  },
+  "<branch2>": {
+    "moose-version": "<moose-version-for-branch2>",
+    "image-name": "<image-name-for-branch2>",
+    "release-tag": "<release-tag-for-branch-2>"
+  }
+}
+```
+⚠️
+The value of `moose-version`must be a valid Moose version. "Moose9", "Moose10", "Moose11" and so on, or "Moose-latest".
+The value of `pharo-versions` will then be set according to this Moose version.
+In the variables page, you can see the organization variable that stores the Pharo versions available for each Moose version.
+
