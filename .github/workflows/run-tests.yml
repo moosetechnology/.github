@@ -15,9 +15,12 @@ on:
       create-artifact:
         required: false
         type: boolean
+      run-coverage:
+        required: false
+        type: boolean
 
 jobs:
-  build:
+  run:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -35,6 +38,8 @@ jobs:
           
     name: ${{ matrix.smalltalk }}
     steps:
+
+# Run tests and coverage
     
       - name: Checkout branch
         uses: actions/checkout@v4
@@ -48,19 +53,9 @@ jobs:
         run: smalltalkci -s ${{ matrix.smalltalk }}
         shell: bash
         timeout-minutes: 15
-
-# Upload image as artifact
-      
-      - name: Pre-upload scripts
-        if: ${{ inputs.create-artifact }}
-        # Remove SmalltalkCI from the image + run custom script if provided.
-        # Exemple of custom script: when building for a Moose release, add the commit id to Moose Welcome browser.
-        run: |
-          ls -l $SMALLTALK_CI_VM
-          $SMALLTALK_CI_VM  $SMALLTALK_CI_IMAGE eval --save "Smalltalk packages select: [ :package | package name includes: 'SmalltalkCI' ] thenDo: [ :package | package removeFromSystem ]. ${{ inputs.pre-upload-script }}"
-      
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Set image name
-        if: ${{ inputs.create-artifact }}
         # Image name will be the name provided as input followed by a simplified pharo version. 
         # Example: running on Pharo64-12: '${{inputs.image-name}}-Pharo12'
         run: |
@@ -74,6 +69,24 @@ jobs:
               && fromJSON(vars.BRANCHES_CONFIGURATION)[github.ref_name] 
               && fromJSON(vars.BRANCHES_CONFIGURATION)[github.ref_name].image-name 
               || format('{0}-{1}', github.event.repository.name, github.ref_name) }}
+      - name: Coveralls GitHub Action
+        if:  ${{ inputs.run-coverage }}
+        uses: coverallsapp/github-action@v1.1.1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          flag-name: ${{ env.IMAGE_NAME }}
+          parallel: true
+          
+
+# Upload image as artifact
+      
+      - name: Pre-upload scripts
+        if: ${{ inputs.create-artifact }}
+        # Remove SmalltalkCI from the image + run custom script if provided.
+        # Exemple of custom script: when building for a Moose release, add the commit id to Moose Welcome browser.
+        run: |
+          ls -l $SMALLTALK_CI_VM
+          $SMALLTALK_CI_VM  $SMALLTALK_CI_IMAGE eval --save "Smalltalk packages select: [ :package | package name includes: 'SmalltalkCI' ] thenDo: [ :package | package removeFromSystem ]. ${{ inputs.pre-upload-script }}"
         
       - name: Build artifact
         if: ${{ inputs.create-artifact }}
@@ -96,3 +109,15 @@ jobs:
             ${{ env.IMAGE_NAME }}.image
             ${{ env.IMAGE_NAME }}.changes
             pharo.version
+
+  coverage:
+    name: Export coverage
+    if: ${{ inputs.run-coverage }}
+    needs: run
+    runs-on: ubuntu-latest
+    steps:
+    - name: Coveralls Finished
+      uses: coverallsapp/github-action@master
+      with:  
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        parallel-finished: true
