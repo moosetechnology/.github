@@ -44,6 +44,7 @@ In this workflow, `create-artifact` is always `true`.
 | ----------------- | ---------------- | ----------------------------------------- | --------------------------------- |
 | pharo-versions    | Array of strings | All                                       | Pharo versions for latest Moose   |
 | create-artifact   | Boolean          | run-tests.yml                             | false                             |
+| run-coverage      | Boolean          | All                                       | false                             |
 | image-name        | String           | All (useless if create-artifact is false) | \<RepositoryName\>-\<branchName\> |
 | pre-upload-script | String           | All (useless if create-artifact is false) | ''                                |
 | release-tag       | String           | update-and-release.yml                    | 'generated-assets'                |
@@ -54,6 +55,11 @@ See available images [here](https://github.com/hpi-swa/smalltalkCI?tab=readme-ov
 - **create-artifact**: A boolean.
 If `true`, an artifact containing all the files necessary to run the image locally will be generated.
 Note that smalltalkCI will be deleted from this image.
+
+- **run-coverage**: A boolean.
+If `true`, coverage will be computed using Coveralls.
+See [smalltalkCI documentation on coverage](https://github.com/hpi-swa/smalltalkCI/blob/master/docs/COVERAGE.md).
+Be sure to run on packages or classes in the repository (not loaded via dependency).
 
 - **image-name**:
 The first part of the name of the image generated and the file containing it.
@@ -115,7 +121,7 @@ The variable name must be `BRANCHES_CONFIGURATION` and its value must be a valid
 }
 ```
 ⚠️
-The value of `moose-version`must be a valid Moose version. "Moose9", "Moose10", "Moose11" and so on, or "Moose-latest".
+The value of `moose-version` must be a valid Moose version. "Moose9", "Moose10", "Moose11" and so on, or "Moose-latest".
 The value of `pharo-versions` will then be set according to this Moose version.
 In the variables page, you can see the organization variable that stores the Pharo versions available for each Moose version.
 
