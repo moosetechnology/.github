@@ -15,6 +15,9 @@ on:
       release-tag:
         required: false
         type: string
+      run-coverage:
+        required: false
+        type: boolean
 
 jobs:
   run-tests:
@@ -25,6 +28,7 @@ jobs:
       pharo-versions: ${{ inputs.pharo-versions }}
       pre-upload-script: ${{ inputs.pre-upload-script }}
       create-artifact: true
+      run-coverage: ${{ inputs.run-coverage }}
 
   update-release:
     name: Update ${{ inputs.release-tag }} release
