@@ -22,6 +22,7 @@ jobs:
 #        create-artifact: true
 #        image-name: ""
 #        pre-upload-script: ""
+#        run-coverage: true
 
 
 
@@ -55,3 +56,8 @@ jobs:
 #  It is mostly used when you need to register information from the workflow run. For example, store commit ID. 
 #  If you do not need workflow information, you can instead use smalltalkCI custom scripts: https://github.com/hpi-swa/smalltalkCI?tab=readme-ov-file#custom-scripts
 #    Default value: ""
+
+# run-coverage:
+#  Compute coverage using Coveralls.
+#  See https://github.com/hpi-swa/smalltalkCI/blob/master/docs/COVERAGE.md for more documentation.
+#  Be sure to run on packages or classes in the repository (not loaded via dependency)
