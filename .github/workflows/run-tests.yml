@@ -75,9 +75,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           flag-name: ${{ env.IMAGE_NAME }}
-          parallel: true
-          debug: true
-          
+          parallel: true          
 
 # Upload image as artifact
       
