@@ -116,7 +116,13 @@ jobs:
             pharo.version
       
       - name: Succeed
-        run: echo "success=true" >> $GITHUB_OUTPUT
+        run: echo "status_${{matrix.smalltalk}}=success" >> "$GITHUB_OUTPUT"
+
+  summary:
+    runs-on: ubuntu-latest
+    needs: run
+    steps:
+      - run: echo '${{ toJSON(needs.run.outputs) }}'
 
   coverage:
     name: Export coverage
