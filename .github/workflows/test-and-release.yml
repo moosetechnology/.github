@@ -33,6 +33,7 @@ jobs:
   update-release:
     name: Update ${{ inputs.release-tag }} release
     needs: run-tests
+    if: ${{ needs.run-tests.outputs.success }}
     uses: moosetechnology/.github/.github/workflows/update-release.yml@main
     with:
        image-name: ${{ inputs.image-name }}
