@@ -18,10 +18,16 @@ on:
       run-coverage:
         required: false
         type: boolean
+    outputs:
+      success:
+        description: "Set to true if any matrix branch succeeds"
+        value: ${{ jobs.run.outputs.success }}
 
 jobs:
   run:
     runs-on: ubuntu-latest
+    outputs:
+      success: $${{ steps.succeed.outputs.success }}
     strategy:
       fail-fast: false
       matrix:
@@ -108,6 +114,9 @@ jobs:
             ${{ env.IMAGE_NAME }}.image
             ${{ env.IMAGE_NAME }}.changes
             pharo.version
+      
+      - name: Succeed
+        run: echo "success=true" >> $GITHUB_OUTPUT
 
   coverage:
     name: Export coverage
