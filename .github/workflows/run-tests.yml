@@ -121,6 +121,7 @@ jobs:
   summary:
     runs-on: ubuntu-latest
     needs: run
+    if: §{{ always() }}
     steps:
       - run: echo '${{ toJSON(needs.run.outputs) }}'
 
