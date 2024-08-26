@@ -27,7 +27,7 @@ jobs:
   run:
     runs-on: ubuntu-latest
     outputs:
-      success: $${{ steps.succeed.outputs.success }}
+      success: $${{ steps.succeed.outputs.matrix_status }}
     strategy:
       fail-fast: false
       matrix:
@@ -116,7 +116,8 @@ jobs:
             pharo.version
       
       - name: Succeed
-        run: echo "status_${{matrix.smalltalk}}=success" >> "$GITHUB_OUTPUT"
+        id: succeed
+        run: echo "matrix_status=success" >> "$GITHUB_OUTPUT"
 
   summary:
     runs-on: ubuntu-latest
