@@ -30,6 +30,15 @@ jobs:
       create-artifact: true
       run-coverage: ${{ inputs.run-coverage }}
 
+  debug:
+    name: Debug
+    runs-on: ubuntu-latest
+    needs: run-tests
+    steps:
+      - run: |
+          echo ${{ needs.run-tests.outputs.success }}
+          echo ${{ needs.run-tests.outputs.success != '$' }}
+  
   update-release:
     name: Update ${{ inputs.release-tag }} release
     needs: run-tests
