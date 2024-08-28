@@ -113,6 +113,7 @@ jobs:
           path: |
             ${{ env.IMAGE_NAME }}.image
             ${{ env.IMAGE_NAME }}.changes
+            *.sources
             pharo.version
       
       - name: Succeed
