@@ -91,7 +91,7 @@ jobs:
         # Exemple of custom script: when building for a Moose release, add the commit id to Moose Welcome browser.
         run: |
           ls -l $SMALLTALK_CI_VM
-          $SMALLTALK_CI_VM  $SMALLTALK_CI_IMAGE eval --save "${{ inputs.pre-upload-script }}"
+          $SMALLTALK_CI_VM  $SMALLTALK_CI_IMAGE eval --save "Smalltalk packages select: [ :package | package name includes: 'SmalltalkCI' ] thenDo: [ :package | package removeFromSystem ]. ${{ inputs.pre-upload-script }}"
         
       - name: Build artifact
         if: ${{ inputs.create-artifact }}
@@ -115,10 +115,8 @@ jobs:
             ${{ env.IMAGE_NAME }}.changes
             *.sources
             pharo.version
-      
-      - name: Succeed
-        id: succeed
-        run: echo "matrix_status=success" >> "$GITHUB_OUTPUT"
+
+# Export coverage
 
   coverage:
     name: Export coverage
