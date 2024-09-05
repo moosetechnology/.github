@@ -58,7 +58,7 @@ jobs:
         # Image name will be the name provided as input followed by a simplified pharo version. 
         # Example: running on Pharo64-12: '${{inputs.image-name}}-Pharo12'
         run: |
-           echo IMAGE_NAME=${{ env.common-image-name }}-${{ matrix.smalltalk }} >> $GITHUB_ENV
+           echo IMAGE_NAME=${{ env.common-image-name }}-${{ matrix.smalltalk }} | sed 's/\///g' >> $GITHUB_ENV
         # The following line will change the asset name in the release and have an impact on download from Pharo-launcher. Do not use it until next release.
          # echo IMAGE_NAME=${{ inputs.image-name }}-${{ matrix.smalltalk }} | sed 's/64-//g' >> $GITHUB_ENV
         env: 
