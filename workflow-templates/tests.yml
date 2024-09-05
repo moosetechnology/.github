@@ -18,11 +18,11 @@ jobs:
     secrets: inherit
 # Optional inputs: un-comment the lines below. See documentation in the next commented paragraph.
 #      with:
-#        pharo-versions: [ Pharo64-stable ]
+#        pharo-versions: "[ 'Moose64-trunk' ]"
 #        create-artifact: true
 #        image-name: ""
 #        pre-upload-script: ""
-#        run-coverage: true
+#        run-coverage: true # Don't forget to modify you .smalltalk.ston file!
 
 
 
