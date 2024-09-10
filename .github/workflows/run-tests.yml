@@ -20,21 +20,43 @@ on:
         type: boolean
 
 jobs:
-  run:
+  parameters:
+    name: Set parameters
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
+    outputs:
+      pharo-versions: ${{ env.pharo-versions }}
+      common-image-name: ${{ env.common-image-name }}
+    env: 
         # Run on the images provided as input. If no images were provided (empty string) run on the default versions.
         # Default versions are computed using repository variables:
           # If a specific Moose version was set for the target branch: the Pharo images associated with this Moose version
           # Else the Pharo images asociated with Moose-latest.
-        smalltalk: >-
-          ${{ fromJSON(inputs.pharo-versions
-          || fromJSON(vars.MOOSE_PHARO_VERSIONS)[vars.BRANCHES_CONFIGURATION 
-          && fromJSON(vars.BRANCHES_CONFIGURATION)[github.ref_name] 
-          && fromJSON(vars.BRANCHES_CONFIGURATION)[github.ref_name].moose-version 
-          || 'Moose-latest']) }}
+      pharo-versions: >-
+        ${{ inputs.pharo-versions
+        || fromJSON(vars.MOOSE_PHARO_VERSIONS)[vars.BRANCHES_CONFIGURATION
+        && fromJSON(vars.BRANCHES_CONFIGURATION)[github.base_ref]
+        && fromJSON(vars.BRANCHES_CONFIGURATION)[github.base_ref].moose-version
+        || fromJSON(vars.BRANCHES_CONFIGURATION)[github.ref_name]
+        && fromJSON(vars.BRANCHES_CONFIGURATION)[github.ref_name].moose-version
+        || 'Moose-latest'] }}
+    steps:
+      - run: echo "Pharo version:" ${{ env.pharo-versions }}
+      - run: >- 
+          echo common-image-name=${{ inputs.image-name || 
+          vars.BRANCHES_CONFIGURATION
+          && fromJSON(vars.BRANCHES_CONFIGURATION)[github.base_ref]
+          && fromJSON(vars.BRANCHES_CONFIGURATION)[github.base_ref].imgae-name
+          || fromJSON(vars.BRANCHES_CONFIGURATION)[github.ref_name] 
+          && fromJSON(vars.BRANCHES_CONFIGURATION)[github.ref_name].image-name 
+          || format('{0}-{1}', github.event.repository.name, github.ref_name) }} | sed 's/\///g'  >> $GITHUB_ENV
+      
+  run:
+    runs-on: ubuntu-latest
+    needs: parameters
+    strategy:
+      fail-fast: false
+      matrix:
+        smalltalk: ${{ fromJSON(needs.parameters.outputs.pharo-versions) }}
     name: ${{ matrix.smalltalk }}
     steps:
 
@@ -55,19 +77,9 @@ jobs:
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Set image name
-        # Image name will be the name provided as input followed by a simplified pharo version. 
-        # Example: running on Pharo64-12: '${{inputs.image-name}}-Pharo12'
-        run: |
-           echo IMAGE_NAME=${{ env.common-image-name }}-${{ matrix.smalltalk }} | sed 's/\///g' >> $GITHUB_ENV
-        # The following line will change the asset name in the release and have an impact on download from Pharo-launcher. Do not use it until next release.
-         # echo IMAGE_NAME=${{ inputs.image-name }}-${{ matrix.smalltalk }} | sed 's/64-//g' >> $GITHUB_ENV
-        env: 
-          common-image-name: >-
-            ${{ inputs.image-name || 
-              vars.BRANCHES_CONFIGURATION 
-              && fromJSON(vars.BRANCHES_CONFIGURATION)[github.ref_name] 
-              && fromJSON(vars.BRANCHES_CONFIGURATION)[github.ref_name].image-name 
-              || format('{0}-{1}', github.event.repository.name, github.ref_name) }}
+        run: echo IMAGE_NAME=${{ needs.parameters.outputs.common-image-name }}-${{ matrix.smalltalk }} >> $GITHUB_ENV
+        # The following line will change the asset name in the release and have an impact on download from Pharo-launcher. Do not use it until next release: | sed 's/64-//g' >> $GITHUB_ENV
+
       - name: Coveralls GitHub Action
         if:  ${{ inputs.run-coverage }}
         uses: coverallsapp/github-action@v2
@@ -85,7 +97,7 @@ jobs:
         run: |
           ls -l $SMALLTALK_CI_VM
           $SMALLTALK_CI_VM  $SMALLTALK_CI_IMAGE eval --save "Smalltalk packages select: [ :package | package name includes: 'SmalltalkCI' ] thenDo: [ :package | package removeFromSystem ]. ${{ inputs.pre-upload-script }}"
-        
+
       - name: Build artifact
         if: ${{ inputs.create-artifact }}
         env:
