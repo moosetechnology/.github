@@ -34,20 +34,20 @@ jobs:
       pharo-versions: >-
         ${{ inputs.pharo-versions
         || fromJSON(vars.MOOSE_PHARO_VERSIONS)[vars.BRANCHES_CONFIGURATION
-        && fromJSON(vars.BRANCHES_CONFIGURATION)[github.base_ref]
+        && (fromJSON(vars.BRANCHES_CONFIGURATION)[github.base_ref]
         && fromJSON(vars.BRANCHES_CONFIGURATION)[github.base_ref].moose-version
         || fromJSON(vars.BRANCHES_CONFIGURATION)[github.ref_name]
-        && fromJSON(vars.BRANCHES_CONFIGURATION)[github.ref_name].moose-version
+        && fromJSON(vars.BRANCHES_CONFIGURATION)[github.ref_name].moose-version)
         || 'Moose-latest'] }}
     steps:
       - run: echo "Pharo version:" ${{ env.pharo-versions }}
       - run: >- 
           echo common-image-name=${{ inputs.image-name || 
           vars.BRANCHES_CONFIGURATION
-          && fromJSON(vars.BRANCHES_CONFIGURATION)[github.base_ref]
+          && (fromJSON(vars.BRANCHES_CONFIGURATION)[github.base_ref]
           && fromJSON(vars.BRANCHES_CONFIGURATION)[github.base_ref].imgae-name
           || fromJSON(vars.BRANCHES_CONFIGURATION)[github.ref_name] 
-          && fromJSON(vars.BRANCHES_CONFIGURATION)[github.ref_name].image-name 
+          && fromJSON(vars.BRANCHES_CONFIGURATION)[github.ref_name].image-name)
           || format('{0}-{1}', github.event.repository.name, github.ref_name) }} | sed 's/\///g'  >> $GITHUB_ENV
       
   run:
