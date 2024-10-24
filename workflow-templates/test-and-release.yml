@@ -26,12 +26,12 @@ jobs:
 
 ############ INPUTS DOCUMENTATION ############
 
-# pharo-version: 
+# pharo-version:
 #  An array of strings corresponding to a Pharo or Moose image.
 #    Default is the Pharo versions compatible with the latest Moose version.
 #    Alternatively, you can:
-#       - set the value of this option with valid Pharo or Moose versions (always an array, even if you set only 1 image).  See available images here: https://github.com/hpi-swa/smalltalkCI?tab=readme-ov-file#images
-#       - assign a Moose version to your branch using repository variables. See https://github.com/moosetechnology/.github?tab=readme-ov-file#use-different-values-for-specfic-branches
+#        - set the value of this option with valid Pharo or Moose versions (always an array, even if you set only 1 image).  See available images here: https://github.com/hpi-swa/smalltalkCI?tab=readme-ov-file#images
+#        - assign a Moose version to your branch using repository variables. See https://github.com/moosetechnology/.github?tab=readme-ov-file#use-different-values-for-specfic-branches
 #          The default Pharo version will then be the available Pharo versions corresponding to this Moose version.
 
 # image-name:
@@ -46,7 +46,7 @@ jobs:
 # pre-upload-script:
 #  A string that can be executed in Pharo.
 #  If create-artifact is set to true, this will be executed in the image after the tests are run and before uploading the artifact.
-#  It is mostly used when you need to register information from the workflow run. For example, store commit ID. 
+#  It is mostly used when you need to register information from the workflow run. For example, store commit ID.
 #  If you do not need workflow information, you can instead use smalltalkCI custom scripts: https://github.com/hpi-swa/smalltalkCI?tab=readme-ov-file#custom-scripts
 #    Default value: ""
 
