@@ -18,7 +18,9 @@ jobs:
       FILES_NAME_PATTERN: >-
             ${{ inputs.image-name || 
               vars.BRANCHES_CONFIGURATION
-              && fromJSON(vars.BRANCHES_CONFIGURATION)[github.ref_name] 
+              && fromJSON(vars.BRANCHES_CONFIGURATION)[github.event.release.target_commitish]
+              && fromJSON(vars.BRANCHES_CONFIGURATION)[github.event.release.target_commitish].moose-version
+              || fromJSON(vars.BRANCHES_CONFIGURATION)[github.ref_name] 
               && fromJSON(vars.BRANCHES_CONFIGURATION)[github.ref_name].image-name 
               || format('{0}-{1}', github.event.repository.name, github.ref_name) }}*
   
