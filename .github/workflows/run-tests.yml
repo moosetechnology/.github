@@ -34,7 +34,9 @@ jobs:
       pharo-versions: >-
         ${{ inputs.pharo-versions
         || fromJSON(vars.MOOSE_PHARO_VERSIONS)[vars.BRANCHES_CONFIGURATION
-        && (fromJSON(vars.BRANCHES_CONFIGURATION)[github.base_ref]
+        && fromJSON(vars.BRANCHES_CONFIGURATION)[github.event.release.target_commitish]
+        && fromJSON(vars.BRANCHES_CONFIGURATION)[github.event.release.target_commitish].moose-version
+        || (fromJSON(vars.BRANCHES_CONFIGURATION)[github.base_ref]
         && fromJSON(vars.BRANCHES_CONFIGURATION)[github.base_ref].moose-version
         || fromJSON(vars.BRANCHES_CONFIGURATION)[github.ref_name]
         && fromJSON(vars.BRANCHES_CONFIGURATION)[github.ref_name].moose-version)
@@ -44,7 +46,9 @@ jobs:
       - run: >- 
           echo common-image-name=${{ inputs.image-name || 
           vars.BRANCHES_CONFIGURATION
-          && (fromJSON(vars.BRANCHES_CONFIGURATION)[github.base_ref]
+          && fromJSON(vars.BRANCHES_CONFIGURATION)[github.event.release.target_commitish]
+          && fromJSON(vars.BRANCHES_CONFIGURATION)[github.event.release.target_commitish].moose-version
+          || (fromJSON(vars.BRANCHES_CONFIGURATION)[github.base_ref]
           && fromJSON(vars.BRANCHES_CONFIGURATION)[github.base_ref].imgae-name
           || fromJSON(vars.BRANCHES_CONFIGURATION)[github.ref_name] 
           && fromJSON(vars.BRANCHES_CONFIGURATION)[github.ref_name].image-name)
