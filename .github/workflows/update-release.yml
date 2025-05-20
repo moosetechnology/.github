@@ -48,7 +48,7 @@ jobs:
             ${{ inputs.release-tag || 
               vars.BRANCHES_CONFIGURATION
               && fromJSON(vars.BRANCHES_CONFIGURATION)[github.event.release.target_commitish]
-              && fromJSON(vars.BRANCHES_CONFIGURATION)[github.event.release.target_commitish].moose-version
+              && fromJSON(vars.BRANCHES_CONFIGURATION)[github.event.release.target_commitish].release-tag
               || fromJSON(vars.BRANCHES_CONFIGURATION)[github.ref_name] 
               && fromJSON(vars.BRANCHES_CONFIGURATION)[github.ref_name].release-tag 
               || 'generated-assets' }}
