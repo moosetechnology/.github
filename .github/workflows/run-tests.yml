@@ -33,7 +33,7 @@ jobs:
           # Else the Pharo images asociated with Moose-latest.
       pharo-versions: >-
         ${{ inputs.pharo-versions
-        || fromJSON(vars.MOOSE_PHARO_VERSIONS)[vars.BRANCHES_CONFIGURATION]
+        || fromJSON(vars.MOOSE_PHARO_VERSIONS)[vars.BRANCHES_CONFIGURATION
         && fromJSON(vars.BRANCHES_CONFIGURATION)[github.event.release.target_commitish]
         && fromJSON(vars.BRANCHES_CONFIGURATION)[github.event.release.target_commitish].moose-version
         || (fromJSON(vars.BRANCHES_CONFIGURATION)[github.base_ref]
