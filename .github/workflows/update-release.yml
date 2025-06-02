@@ -9,33 +9,28 @@ on:
       release-tag:
         required: false
         type: string
+      branch-name:
+        required: true
+        type: string
 
 jobs:
   update-release-with-new-artifacts:
     name: Update ${{ inputs.release-tag }} release with new artifacts
-    runs-on: ubuntu-latest
-    env:
-      FILES_NAME_PATTERN: >-
-            ${{ inputs.image-name || 
-              vars.BRANCHES_CONFIGURATION
-              && fromJSON(vars.BRANCHES_CONFIGURATION)[github.ref_name] 
-              && fromJSON(vars.BRANCHES_CONFIGURATION)[github.ref_name].image-name 
-              || format('{0}-{1}', github.event.repository.name, github.ref_name) }}*
-  
+    runs-on: ubuntu-latest  
     steps:
 
       - name: Download Artifacts
         uses: actions/download-artifact@v4
         with:
-          pattern: ${{ env.FILE_NAMES_PATTERN }}
+          pattern: ${{ inputs.image-name }}*
       
       - name: Zip files
         # Zip the downloaded files.
         # Store a string variable: the zip files names separated by semicolons.
         id: zip-files
         run: |
-          for i in $FILES_NAME_PATTERN; do zip -r "${i%/}.zip" "$i"; done
-          echo files-names=$(ls -m $FILES_NAME_PATTERN.zip) | sed -e 's/, /;/g' >> $GITHUB_OUTPUT
+          for i in ${{inputs.image-name}}*; do zip -r "${i%/}.zip" "$i"; done
+          echo files-names=$(ls -m ${{inputs.image-name}}*.zip) | sed -e 's/, /;/g' >> $GITHUB_OUTPUT
       
       - name: Update release
         uses: Xotl/cool-github-releases@v1 # See https://github.com/actions-marketplace-validations/Xotl_cool-github-releases
@@ -43,10 +38,9 @@ jobs:
           mode: update
           replace_assets: true
           tag_name:  >-
-            ${{ inputs.release-tag || 
-              vars.BRANCHES_CONFIGURATION
-              && fromJSON(vars.BRANCHES_CONFIGURATION)[github.ref_name] 
-              && fromJSON(vars.BRANCHES_CONFIGURATION)[github.ref_name].release-tag 
-              || 'generated-assets' }}
+            ${{ inputs.release-tag 
+            || vars.BRANCHES_CONFIGURATION && fromJSON(vars.BRANCHES_CONFIGURATION)[inputs.branch-name].release-tag 
+            || 'generated-assets' }}
+              
           assets: ${{ steps.zip-files.outputs.files-names }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
