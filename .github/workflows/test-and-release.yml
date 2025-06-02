@@ -20,21 +20,48 @@ on:
         type: boolean
 
 jobs:
+
+  common-parameters:
+    runs-on: ubuntu-latest
+    name: Set common parameters
+    outputs:
+      branch-name: ${{ steps.branch-name.outputs.branch-name }}
+      image-name: ${{ steps.image-name.outputs.image-name }}
+    steps:
+      - name: Branch name
+        id: branch-name
+        run: >-
+          echo branch-name=${{ (github.event_name == 'push' && github.ref_name)
+          || (github.event_name == 'pull_request' && github.base_ref) 
+          || (github.event_name == 'release' && github.github.event.release.target_commitish) }}
+          >> $GITHUB_OUTPUT
+
+      - name: Image name
+        id: image-name
+        run: >-
+          echo image-name=${{ inputs.image-name 
+          || (vars.BRANCHES_CONFIGURATION && fromJSON(vars.BRANCHES_CONFIGURATION)[steps.branch-name.outputs.branch-name].image-name)
+          || format('{0}-{1}', github.event.repository.name, steps.branch-name.outputs.branch-name) }}
+          >> $GITHUB_OUTPUT
+  
   run-tests:
     name: Run tests
-    uses: moosetechnology/.github/.github/workflows/run-tests.yml@main
+    needs: common-parameters
+    uses: ./.github/workflows/run-tests-step.yml
     with:
-      image-name: ${{ inputs.image-name }}
+      image-name: ${{ needs.common-parameters.outputs.image-name }}
       pharo-versions: ${{ inputs.pharo-versions }}
       pre-upload-script: ${{ inputs.pre-upload-script }}
       create-artifact: true
       run-coverage: ${{ inputs.run-coverage }}
+      branch-name: ${{ needs.common-parameters.outputs.branch-name }}
   
   update-release:
     name: Update ${{ inputs.release-tag }} release
     if: ${{ always() }}
-    needs: run-tests
-    uses: moosetechnology/.github/.github/workflows/update-release.yml@main
+    needs: [common-parameters, run-tests]
+    uses: ./.github/workflows/update-release.yml
     with:
-       image-name: ${{ inputs.image-name }}
+       image-name: ${{ needs.common-parameters.outputs.image-name }}
        release-tag: ${{ inputs.release-tag }}
+       branch-name: ${{ needs.common-parameters.outputs.branch-name }}
