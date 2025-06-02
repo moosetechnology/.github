@@ -1,0 +1,133 @@
+name: Run tests
+
+on:
+  workflow_call:
+    inputs: 
+      pharo-versions:
+        required: false
+        type: string
+      image-name:
+        required: true
+        type: string
+      pre-upload-script:
+        required: false
+        type: string
+      create-artifact:
+        required: false
+        type: boolean
+      run-coverage:
+        required: false
+        type: boolean
+      branch-name:
+        required: true
+        type: string
+              
+jobs:
+  parameters:
+    name: Set parameters
+    runs-on: ubuntu-latest
+    outputs:
+      pharo-versions: ${{ steps.pharo-version.outputs.pharo-versions }}
+    steps:
+      - name: Set Pharo versions
+        id: pharo-version
+        # Input OR get the pharo version for the Moose version for this branch OR the pharo version for Moose-latest
+        # Using bash instead of GHA syntax that does not handle well what we're trying to do.
+        run: |
+          if [ -n "${{ inputs.pharo-versions }}" ]; then
+          echo "pharo-versions=${{ inputs.pharo-versions }}" >> $GITHUB_OUTPUT
+
+          elif [ -n "${{ vars.BRANCHES_CONFIGURATION && fromJSON(vars.BRANCHES_CONFIGURATION)[inputs.branch-name] }}" ]; then
+          moose_version=$(echo '${{ vars.BRANCHES_CONFIGURATION }}' | jq -r --arg branch "${{ inputs.branch-name }}" '.[$branch]."moose-version"')
+          pharo_versions=$(echo '${{ vars.MOOSE_PHARO_VERSIONS }}' | jq -c --arg mv "$moose_version" '.[$mv]')
+          echo "pharo-versions=$pharo_versions" >> $GITHUB_OUTPUT
+
+          else
+            pharo_versions=$(echo '${{ vars.MOOSE_PHARO_VERSIONS }}' | jq -c '."Moose-latest"')
+            echo "pharo-versions=$pharo_versions" >> $GITHUB_OUTPUT
+          fi
+
+  run:
+    runs-on: ubuntu-latest
+    needs: parameters
+    strategy:
+      fail-fast: false
+      matrix:
+        smalltalk: ${{ fromJSON(needs.parameters.outputs.pharo-versions) }}
+    
+    name: ${{ matrix.smalltalk }}
+    steps:
+
+# Run tests and coverage
+    
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Option fetching all commits
+      - name: Set-up smalltalkCI
+        uses: hpi-swa/setup-smalltalkCI@v1
+        with:
+          smalltalk-image: ${{ matrix.smalltalk }}
+      - name: Run tests
+        run: smalltalkci -s ${{ matrix.smalltalk }}
+        shell: bash
+        timeout-minutes: 15
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set image name
+        run: echo IMAGE_NAME=${{ inputs.image-name }}-${{ matrix.smalltalk }} >> $GITHUB_ENV
+        # The following line will change the asset name in the release and have an impact on download from Pharo-launcher. Do not use it until next release: | sed 's/64-//g' >> $GITHUB_ENV
+      - name: Coveralls GitHub Action
+        if:  ${{ inputs.run-coverage }}
+        uses: coverallsapp/github-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          flag-name: ${{ env.IMAGE_NAME }}
+          parallel: true          
+
+# Upload image as artifact
+      
+      - name: Pre-upload scripts
+        if: ${{ inputs.create-artifact }}
+        # Remove SmalltalkCI from the image + run custom script if provided.
+        # Exemple of custom script: when building for a Moose release, add the commit id to Moose Welcome browser.
+        run: |
+          ls -l $SMALLTALK_CI_VM
+          $SMALLTALK_CI_VM  $SMALLTALK_CI_IMAGE eval --save "${{ inputs.pre-upload-script }}"
+
+      - name: Build artifact
+        if: ${{ inputs.create-artifact }}
+        env:
+          DEFAULT_IMAGE_NAME: TravisCI # Image name set by smalltalkCI
+        run: |
+          mv $SMALLTALK_CI_BUILD/* .
+          mv $DEFAULT_IMAGE_NAME.image $IMAGE_NAME.image
+          mv $DEFAULT_IMAGE_NAME.changes $IMAGE_NAME.changes
+          echo ${{ matrix.smalltalk }} | sed -e 's/.*\-//g ; s/\..*//g ; s/$/0/' > pharo.version
+        # This pattern transforms as follow: 'Pharo64-9.0' --> '90' and 'Pharo64-10' --> '100'.
+        # Remove every character before '-' ; Remove point and anything after it ; add a '0'.
+
+      - name: Upload artifact
+        if: ${{ inputs.create-artifact }}
+        uses: actions/upload-artifact@v4
+        with: 
+          name: ${{ env.IMAGE_NAME }}
+          path: |
+            ${{ env.IMAGE_NAME }}.image
+            ${{ env.IMAGE_NAME }}.changes
+            *.sources
+            pharo.version
+
+# Export coverage
+
+  coverage:
+    name: Export coverage
+    if: ${{ inputs.run-coverage }}
+    needs: run
+    runs-on: ubuntu-latest
+    steps:
+    - name: Coveralls Finished
+      uses: coverallsapp/github-action@v2
+      with:  
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        parallel-finished: true
