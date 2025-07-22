@@ -33,7 +33,8 @@ jobs:
         run: >-
           echo branch-name=${{ (github.event_name == 'push' && github.ref_name)
           || (github.event_name == 'pull_request' && github.base_ref) 
-          || (github.event_name == 'release' && github.github.event.release.target_commitish) }}
+          || (github.event_name == 'release' && github.github.event.release.target_commitish)
+          || github.ref_name }}
           >> $GITHUB_OUTPUT
 
       - name: Image name
