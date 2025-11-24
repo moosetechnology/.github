@@ -6,7 +6,7 @@ It allows to represent a software system in a model, and to query, manipulate, t
 
 Moose is based on [Pharo](https://pharo.org/) and is open source under BSD/MIT.
 
-Have a look at the [wiki](https://modularmoose.org/moose-wiki/) and the latest [posts](https://modularmoose.org/posts/).
+Have a look at the [documentation](https://modularmoose.org/beginners/install-moose/) and the latest [posts](https://modularmoose.org/blog/).
 
 <!--
 
