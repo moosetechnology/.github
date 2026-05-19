@@ -61,7 +61,7 @@ jobs:
 # Run tests and coverage
     
       - name: Checkout branch
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0 # Option fetching all commits
       - name: Set-up smalltalkCI
@@ -109,7 +109,7 @@ jobs:
 
       - name: Upload artifact
         if: ${{ inputs.create-artifact }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with: 
           name: ${{ env.IMAGE_NAME }}
           path: |
