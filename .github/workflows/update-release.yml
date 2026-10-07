@@ -23,14 +23,18 @@ jobs:
         uses: actions/download-artifact@v8
         with:
           pattern: ${{ inputs.image-name }}*
-      
+
       - name: Zip files
         # Zip the downloaded files.
         # Store a string variable: the zip files names separated by semicolons.
         id: zip-files
         run: |
-          for i in ${{inputs.image-name}}*; do zip -r "${i%/}.zip" "$i"; done
-          echo files-names=$(ls -m ${{inputs.image-name}}*.zip) | sed -e 's/, /;/g' >> $GITHUB_OUTPUT
+          zip "${{ inputs.image-name }}.zip" \
+          "${{ inputs.image-name }}.image" \
+          "${{ inputs.image-name }}.changes" \
+          *.sources \
+          pharo.version
+          echo "files-names=${{ inputs.image-name }}.zip" >> "$GITHUB_OUTPUT"
       
       - name: Update release
         uses: Xotl/cool-github-releases@v1 # See https://github.com/actions-marketplace-validations/Xotl_cool-github-releases
