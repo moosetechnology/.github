@@ -28,13 +28,14 @@ jobs:
         # Zip the downloaded files.
         # Store a string variable: the zip files names separated by semicolons.
         id: zip-files
+        env:
+          IMAGE_NAME: ${{ inputs.image-name }}
         run: |
-          zip "${{ inputs.image-name }}.zip" \
-          "${{ inputs.image-name }}.image" \
-          "${{ inputs.image-name }}.changes" \
-          *.sources \
-          pharo.version
-          echo "files-names=${{ inputs.image-name }}.zip" >> "$GITHUB_OUTPUT"
+          for i in "$IMAGE_NAME"*; do
+          [[ "$i" == *.zip ]] && continue
+          zip -r "${i%/}.zip" "$i"
+          done
+          echo "files-names=$(printf '%s\n' "$IMAGE_NAME"*.zip | paste -sd ';')" >> "$GITHUB_OUTPUT"
       
       - name: Update release
         uses: Xotl/cool-github-releases@v1 # See https://github.com/actions-marketplace-validations/Xotl_cool-github-releases
