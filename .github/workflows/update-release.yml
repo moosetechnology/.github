@@ -20,9 +20,16 @@ jobs:
     steps:
 
       - name: Download Artifacts
-        uses: actions/download-artifact@v8
-        with:
-          pattern: ${{ inputs.image-name }}*
+        env:
+          GH_TOKEN: ${{ github.token }}
+          IMAGE_NAME: ${{ inputs.image-name }}
+        run: |
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/artifacts" \
+          --paginate --jq '.artifacts[].name' |
+          while read -r name; do
+            [[ "$name" == "$IMAGE_NAME"* ]] || continue
+          gh run download "$GITHUB_RUN_ID" --name "$name" --dir "$name"
+          done
 
       - name: Zip files
         # Zip the downloaded files.
